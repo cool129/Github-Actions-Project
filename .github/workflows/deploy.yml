@@ -15,4 +15,4 @@ jobs:
     - uses: actions/checkout@v4
     - run: docker build . -t cool129/next-js-app
     - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin 
-    - run: docker push cool129/next-js-app:latest
+    - run: docker push geo2face/next-js-app:latest
