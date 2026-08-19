@@ -1,3 +1,5 @@
+# GitHub Actions Project — What I Learned
+A log of everything I ran into while building a CI/CD pipeline with GitHub Actions for a Next.js app — and exactly how I fixed each problem
 1. 🔗 Connecting a local repo to GitHub
 
 ❌ Problem: git push failed with:
@@ -200,6 +202,6 @@ Concept	Key Takeaway
 🩺 git status	The first command to run whenever something isn't behaving — it almost always explains what's wrong
 <div align="center">
 
-🎉 Completed the full GitHub Actions CI/CD tutorial — remotes, merges, Docker builds, and pull requests, end to end.
+🎉 Completed the full GitHub Actions CI/CD tutorial — remotes, merges, Docker builds, and pull requests.
 
 </div>
