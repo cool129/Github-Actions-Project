@@ -1,5 +1,7 @@
 # GitHub Actions Project — What I Learned
+
 A log of everything I ran into while building a CI/CD pipeline with GitHub Actions for a Next.js app — and exactly how I fixed each problem
+
 1. 🔗 Connecting a local repo to GitHub
 
 ❌ Problem: git push failed with:
@@ -11,8 +13,8 @@ fatal: No configured push destination.
 ✅ Fix:
 
 bash
-git remote add origin https://github.com/<username>/<repo>.git
-git push --set-upstream origin <branch-name>
+git remote add origin https://github.com/USERNAME/REPO.git
+git push --set-upstream origin BRANCH-NAME
 
 💡 Lesson: A local Git repo and a GitHub repo aren't automatically linked — you have to explicitly tell Git where to push with git remote add.
 
@@ -27,7 +29,7 @@ remote: Repository not found.
 ✅ Fix: Since origin already existed, git remote add failed with "remote origin already exists" — had to use git remote set-url instead to overwrite it:
 
 bash
-git remote set-url origin https://github.com/<username>/<correct-repo-name>.git
+git remote set-url origin https://github.com/USERNAME/CORRECT-REPO-NAME.git
 
 💡 Lesson: git remote add only works for creating a new remote. To fix an existing one, use git remote set-url.
 
@@ -56,7 +58,7 @@ This gave both branches a shared history so GitHub could generate a normal diff 
 ✅ Fix:
 
 bash
-git rm -r <duplicate-folder>
+git rm -r DUPLICATE-FOLDER
 git commit -m "Remove duplicate nested folder"
 git push
 
@@ -73,8 +75,8 @@ fatal: could not lookup name for submodule
 ✅ Fix:
 
 bash
-git rm -r --cached <folder>
-rm -rf <folder>
+git rm -r --cached FOLDER
+rm -rf FOLDER
 <details> <summary>ℹ️ Why two commands?</summary>
 
 --cached removes it from Git's tracking without trying to recurse into it as a submodule; rm -rf deletes it from disk separately.
@@ -109,7 +111,7 @@ Remove-Item : A parameter cannot be found that matches parameter name 'rf'
 ✅ Fix:
 
 powershell
-Remove-Item -Recurse -Force <folder>
+Remove-Item -Recurse -Force FOLDER
 
 💡 Lesson: Git Bash and PowerShell are different environments with different command syntax — know which terminal you're in.
 
@@ -119,12 +121,12 @@ Remove-Item -Recurse -Force <folder>
 
 fatal: a branch named 'X' already exists
 
-🔍 Cause: Used git checkout -b <branch> (create new) on a branch that already existed.
+🔍 Cause: Used git checkout -b BRANCH (create new) on a branch that already existed.
 
 ✅ Fix: Just switch to it — no -b:
 
 bash
-git checkout <branch>
+git checkout BRANCH
 
 💡 Lesson: -b means "create," not "switch to." Use it only the first time a branch is made.
 
@@ -152,14 +154,14 @@ json
 
 denied: requested access to the resource is denied
 
-🔍 Cause: The workflow's image name (<username>/next-js-app) didn't match the Docker Hub account logged in via the stored secrets — first because it was the tutorial author's username, then because I'd used my GitHub username instead of my actual Docker Hub username.
+🔍 Cause: The workflow's image name (USERNAME/next-js-app) didn't match the Docker Hub account logged in via the stored secrets — first because it was the tutorial author's username, then because I'd used my GitHub username instead of my actual Docker Hub username.
 
 ✅ Fix: Updated .github/workflows/deploy.yml so both the docker build -t and docker push lines use the exact same, correct Docker Hub username:
 
 yaml
-- run: docker build . -t <dockerhub-username>/next-js-app
+- run: docker build . -t DOCKERHUB-USERNAME/next-js-app
 - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-- run: docker push <dockerhub-username>/next-js-app:latest
+- run: docker push DOCKERHUB-USERNAME/next-js-app:latest
 
 ⚠️ Lesson: The image tag in docker build and docker push must match exactly, and must use the Docker Hub username tied to the login credentials — not the GitHub username.
 
