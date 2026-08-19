@@ -11,8 +11,8 @@ fatal: No configured push destination.
 ✅ Fix:
 
 bash
-git remote add origin https://github.com/<username>/<repo>.git
-git push --set-upstream origin <branch-name>
+[ git remote add origin https://github.com/<username>/<repo>.git
+git push --set-upstream origin <branch-name> ]
 
 💡 Lesson: A local Git repo and a GitHub repo aren't automatically linked — you have to explicitly tell Git where to push with git remote add.
 
